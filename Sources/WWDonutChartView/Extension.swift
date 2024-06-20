@@ -1,6 +1,6 @@
 //
 //  Extension.swift
-//  CAShapeLayer_Animation
+//  WWDonutChartView
 //
 //  Created by iOS on 2024/6/20.
 //  Copyright © 2024 IIT-翁禹斌(William.Weng). All rights reserved.
@@ -10,7 +10,7 @@ import UIKit
 import CoreGraphics
 import AVFoundation
 
-// MARK: - CGFloat (class function)
+// MARK: CGFloat (class function)
 extension CGFloat {
     
     /// 180° => π
@@ -20,7 +20,7 @@ extension CGFloat {
     func _angle() -> CGFloat { return self * (180.0 / .pi) }
 }
 
-// MARK: - Collection (function)
+// MARK: Collection (function)
 extension Collection where Self.Element: CALayer {
     
     /// 將所有CALayer移除
@@ -29,7 +29,7 @@ extension Collection where Self.Element: CALayer {
     }
 }
 
-// MARK: - UIView (class function)
+// MARK: UIView (class function)
 extension UIView {
     
     /// 找出適合的半徑 (寬或高的一半)
@@ -42,7 +42,7 @@ extension UIView {
     }
 }
 
-// MARK: - CGPath (class function)
+// MARK: CGPath (class function)
 extension CGPath {
     
     /// 建立圓形(弧)路徑
@@ -63,7 +63,7 @@ extension CGPath {
     }
 }
 
-// MARK: - CALayer (static function)
+// MARK: CALayer (static function)
 extension CALayer {
     
     /// Layer產生器
@@ -89,7 +89,7 @@ extension CALayer {
     }
 }
 
-// MARK: - CAAnimation (static function)
+// MARK: CAAnimation (static function)
 extension CAAnimation {
     
     /// [Layer動畫產生器 (CABasicAnimation)](https://jjeremy-xue.medium.com/swift-說說-cabasicanimation-9be31ee3eae0)
@@ -116,18 +116,4 @@ extension CAAnimation {
     }
 }
 
-// MARK: - Constant
-final class Constant: NSObject {}
 
-// MARK: - typealias
-extension Constant {
-    typealias BasicAnimationInformation = (animation: CABasicAnimation, keyPath: Constant.AnimationKeyPath)                         // Basic動畫資訊
-}
-
-extension Constant {
-    
-    /// [動畫路徑 (KeyPath)](https://stackoverflow.com/questions/44230796/what-is-the-full-keypath-list-for-cabasicanimation)
-    enum AnimationKeyPath: String {
-        case strokeEnd = "strokeEnd"
-    }
-}
