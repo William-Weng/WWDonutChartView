@@ -13,7 +13,7 @@ import AVFoundation
 // MARK: - WWDonutChartViewDelegate
 public protocol WWDonutChartViewDelegate: AnyObject {
     
-    func informations(in animationView: WWDonutChartView) -> [WWDonutChartView.LineInformation]    // 取得資料相關資訊
+    func informations(in donutChartView: WWDonutChartView) -> [WWDonutChartView.LineInformation]    // 取得資料相關資訊
 }
 
 // MARK: - WWDonutChartView

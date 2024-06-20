@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "wwdonutchartview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/William-Weng/WWDonutChartView",
+      "state" : {
+        "branch" : "main",
+        "revision" : "2c7834957758f07a2cd605f701019263404240c8"
+      }
+    },
+    {
+      "identity" : "wwprint",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/William-Weng/WWPrint",
+      "state" : {
+        "revision" : "8f5928f5d36624d77f8fc563fd8e31a59cfac6b6",
+        "version" : "1.3.1"
+      }
+    }
+  ],
+  "version" : 2
+}

@@ -18,12 +18,16 @@ dependencies: [
 ![](./IBDesignable.png)
 
 ## [Function - 可用函式](https://gitbook.swiftgg.team/swift/swift-jiao-cheng)
-### [一般版本](https://medium.com/彼得潘的-swift-ios-app-開發教室/簡易說明swift-4-closures-77351c3bf775)
 |函式|功能|
 |-|-|
 |setting(lineWidth:baseLineColor:)|設定線寬 / 底線的顏色|
 |drawing(lineCap:duration:)|繪製動畫線條|
 |clean()|清除線段|
+
+## WWDonutChartViewDelegate
+|函式|功能|
+|-|-|
+|informations(in:)|取得資料相關資訊|
 
 ## Example
 ```swift
@@ -55,7 +59,7 @@ final class ViewController: UIViewController {
 // MARK: WWDonutChartViewDelegate
 extension ViewController: WWDonutChartViewDelegate {
     
-    func informations(in animationView: WWDonutChartView) -> [WWDonutChartView.LineInformation] {
+    func informations(in donutChartView: WWDonutChartView) -> [WWDonutChartView.LineInformation] {
         return infos
     }
 }
