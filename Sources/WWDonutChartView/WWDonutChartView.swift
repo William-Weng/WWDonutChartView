@@ -20,7 +20,7 @@ public protocol WWDonutChartViewDelegate: AnyObject {
 @IBDesignable 
 open class WWDonutChartView: UIView {
     
-    public typealias LineInformation = (strokeColor: UIColor, percent: CGFloat)    // (線的顏色, 百分比)
+    public typealias LineInformation = (strokeColor: UIColor, percent: CGFloat, duration: Double)    // (線的顏色, 百分比, 動畫時間)
     
     @IBOutlet var contentView: UIView!
     
@@ -73,10 +73,9 @@ public extension WWDonutChartView {
     /// 繪製動畫線條
     /// - Parameters:
     ///   - lineCap: 線頭樣式
-    ///   - duration: 動畫時間
-    func drawing(lineCap: CAShapeLayerLineCap = .round, duration: Double = 1.0) {
+    func drawing(lineCap: CAShapeLayerLineCap = .round) {
         clean()
-        animateCAShapeLayerDrawing(lineCap: lineCap, duration: duration)
+        animateCAShapeLayerDrawing(lineCap: lineCap)
     }
     
     /// 清除線段
@@ -125,8 +124,7 @@ private extension WWDonutChartView {
     /// 畫圓弧 + 動畫
     /// - Parameters:
     ///   - lineCap: CAShapeLayerLineCap
-    ///   - duration: Double
-    func animateCAShapeLayerDrawing(lineCap: CAShapeLayerLineCap, duration: Double) {
+    func animateCAShapeLayerDrawing(lineCap: CAShapeLayerLineCap) {
         
         guard let infos = delegate?.informations(in: self) else { return }
         
@@ -137,7 +135,7 @@ private extension WWDonutChartView {
             let layer = baseShapeLayer(from: startAngle, to: endAngle, strokeColor: info.strokeColor, lineCap: lineCap)
             
             totalPercent += info.percent
-            layer.add(pathAnimation(percent: totalPercent, duration: duration), forKey: pathAnimationKey)
+            layer.add(pathAnimation(percent: totalPercent, duration: info.duration), forKey: pathAnimationKey)
             
             return layer
         }

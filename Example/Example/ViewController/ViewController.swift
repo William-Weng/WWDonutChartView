@@ -17,9 +17,9 @@ final class ViewController: UIViewController {
     @IBOutlet weak var shapeLayerView: MyDonutChartView!
     
     private let infos: [WWDonutChartView.LineInformation] = [
-        (strokeColor: .red, percent: 0.1),
-        (strokeColor: .green, percent: 0.3),
-        (strokeColor: .yellow, percent: 0.6),
+        (strokeColor: .red, percent: 0.1, duration: 0.25),
+        (strokeColor: .green, percent: 0.3, duration: 0.75),
+        (strokeColor: .yellow, percent: 0.6, duration: 1.5),
     ]
     
     override func viewDidLoad() {
@@ -28,7 +28,7 @@ final class ViewController: UIViewController {
     }
     
     @IBAction func drawAction(_ sender: UIButton) {
-        shapeLayerView.drawing(lineCap: .round)
+        shapeLayerView.drawing(lineCap: .butt)
     }
 }
 

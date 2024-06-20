@@ -11,7 +11,7 @@
 ### [Installation with Swift Package Manager](https://medium.com/彼得潘的-swift-ios-app-開發問題解答集/使用-spm-安裝第三方套件-xcode-11-新功能-2c4ffcf85b4b)
 ```
 dependencies: [
-    .package(url: "https://github.com/William-Weng/WWDonutChartView.git", .upToNextMajor(from: "1.0.0"))
+    .package(url: "https://github.com/William-Weng/WWDonutChartView.git", .upToNextMajor(from: "1.0.2"))
 ]
 ```
 
@@ -21,7 +21,7 @@ dependencies: [
 |函式|功能|
 |-|-|
 |setting(lineWidth:baseLineColor:)|設定線寬 / 底線的顏色|
-|drawing(lineCap:duration:)|繪製動畫線條|
+|drawing(lineCap:)|繪製動畫線條|
 |clean()|清除線段|
 
 ## WWDonutChartViewDelegate
@@ -31,32 +31,26 @@ dependencies: [
 
 ## Example
 ```swift
-import UIKit
-import WWDonutChartView
-
-final class MyDonutChartView: WWDonutChartView {}
-
 final class ViewController: UIViewController {
     
     @IBOutlet weak var shapeLayerView: MyDonutChartView!
     
     private let infos: [WWDonutChartView.LineInformation] = [
-        (strokeColor: .red, percent: 0.1),
-        (strokeColor: .green, percent: 0.3),
-        (strokeColor: .yellow, percent: 0.6),
+        (strokeColor: .red, percent: 0.1, duration: 0.25),
+        (strokeColor: .green, percent: 0.3, duration: 0.75),
+        (strokeColor: .yellow, percent: 0.6, duration: 1.5),
     ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         shapeLayerView.delegate = self
     }
-        
+    
     @IBAction func drawAction(_ sender: UIButton) {
-        shapeLayerView.drawing(lineCap: .round)
+        shapeLayerView.drawing(lineCap: .butt)
     }
 }
 
-// MARK: WWDonutChartViewDelegate
 extension ViewController: WWDonutChartViewDelegate {
     
     func informations(in donutChartView: WWDonutChartView) -> [WWDonutChartView.LineInformation] {
@@ -64,5 +58,3 @@ extension ViewController: WWDonutChartViewDelegate {
     }
 }
 ```
-
-
