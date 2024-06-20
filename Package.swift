@@ -12,7 +12,7 @@ let package = Package(
         .library(name: "WWDonutChartView", targets: ["WWDonutChartView"]),
     ],
     targets: [
-        .target(name: "WWDonutChartView"),
+        .target(name: "WWDonutChartView", resources: [.copy("Privacy")]),
     ],
     swiftLanguageVersions: [
         .v5
