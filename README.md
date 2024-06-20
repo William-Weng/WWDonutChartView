@@ -31,23 +31,28 @@ dependencies: [
 
 ## Example
 ```swift
+import UIKit
+import WWDonutChartView
+
+final class MyDonutChartView: WWDonutChartView {}
+
 final class ViewController: UIViewController {
     
-    @IBOutlet weak var shapeLayerView: MyDonutChartView!
+    @IBOutlet weak var donutChartView: MyDonutChartView!
     
     private let infos: [WWDonutChartView.LineInformation] = [
-        (strokeColor: .red, percent: 0.1, duration: 0.25),
-        (strokeColor: .green, percent: 0.3, duration: 0.75),
-        (strokeColor: .yellow, percent: 0.6, duration: 1.5),
+        (strokeColor: .red, percent: 0.1, duration: 0.2),
+        (strokeColor: .green, percent: 0.3, duration: 0.8),
+        (strokeColor: .yellow, percent: 0.6, duration: 2.0),
     ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        shapeLayerView.delegate = self
+        donutChartView.delegate = self
     }
     
     @IBAction func drawAction(_ sender: UIButton) {
-        shapeLayerView.drawing(lineCap: .butt)
+        donutChartView.drawing(lineCap: .butt)
     }
 }
 

@@ -64,7 +64,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="nvs-zi-2RQ"/>
                     <connections>
-                        <outlet property="shapeLayerView" destination="8jm-Da-XQ3" id="1Z2-vi-4U4"/>
+                        <outlet property="donutChartView" destination="8jm-Da-XQ3" id="vxj-y5-JvH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
