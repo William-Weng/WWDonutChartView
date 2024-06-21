@@ -19,16 +19,29 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8jm-Da-XQ3" customClass="MyDonutChartView" customModule="Example" customModuleProvider="target">
                                 <rect key="frame" x="20" y="261" width="374" height="374"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Touched Index" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H3L-ln-rqx">
+                                        <rect key="frame" x="111.5" y="172.5" width="151" height="29"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="H3L-ln-rqx" firstAttribute="centerY" secondItem="8jm-Da-XQ3" secondAttribute="centerY" id="IBB-zI-1a3"/>
                                     <constraint firstAttribute="width" secondItem="8jm-Da-XQ3" secondAttribute="height" id="Jzy-kE-5fy"/>
+                                    <constraint firstItem="H3L-ln-rqx" firstAttribute="centerX" secondItem="8jm-Da-XQ3" secondAttribute="centerX" id="NkT-u9-973"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="baseLineColor">
                                         <color key="value" systemColor="systemOrangeColor"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="lineWidth">
-                                        <real key="value" value="56"/>
+                                        <real key="value" value="75"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="touchGap">
+                                        <real key="value" value="1"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
@@ -65,6 +78,7 @@
                     <navigationItem key="navigationItem" id="nvs-zi-2RQ"/>
                     <connections>
                         <outlet property="donutChartView" destination="8jm-Da-XQ3" id="vxj-y5-JvH"/>
+                        <outlet property="touchedIndexLabel" destination="H3L-ln-rqx" id="1Lc-Yr-hlp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

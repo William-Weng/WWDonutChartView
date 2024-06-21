@@ -6,6 +6,7 @@
 //  Copyright © 2024年 William-Weng. All rights reserved.
 
 import UIKit
+import WWPrint
 import WWDonutChartView
 
 // MARK: MyDonutChartView
@@ -14,12 +15,13 @@ final class MyDonutChartView: WWDonutChartView {}
 // MARK: ViewController
 final class ViewController: UIViewController {
     
+    @IBOutlet weak var touchedIndexLabel: UILabel!
     @IBOutlet weak var donutChartView: MyDonutChartView!
     
     private let infos: [WWDonutChartView.LineInformation] = [
-        (strokeColor: .red, percent: 0.1, duration: 0.2),
-        (strokeColor: .green, percent: 0.3, duration: 0.8),
-        (strokeColor: .yellow, percent: 0.6, duration: 2.0),
+        (title: "紅色", strokeColor: .red, percent: 0.1, duration: 0.2),
+        (title: "綠色", strokeColor: .green, percent: 0.3, duration: 0.8),
+        (title: "黃色", strokeColor: .yellow, percent: 0.6, duration: 2.0),
     ]
     
     override func viewDidLoad() {
@@ -34,8 +36,20 @@ final class ViewController: UIViewController {
 
 // MARK: WWDonutChartViewDelegate
 extension ViewController: WWDonutChartViewDelegate {
-    
+        
     func informations(in donutChartView: WWDonutChartView) -> [WWDonutChartView.LineInformation] {
         return infos
+    }
+    
+    func donutChartView(_ donutChartView: WWDonutChartView, didSelectedIndex index: Int?) {
+        
+        guard let index = index else { touchedIndexLabel.text = "<null>"; return }
+        
+        let info = infos[index]
+        touchedIndexLabel.text = info.title
+    }
+    
+    func donutChartView(_ donutChartView: WWDonutChartView, animation: CAAnimation, didStop isStop: Bool, isFinished: Bool) {
+        wwPrint("\(animation.duration) isStop => \(isStop) => isFinished => \(isFinished)")
     }
 }

@@ -42,6 +42,37 @@ extension UIView {
     }
 }
 
+// MARK: - CGPoint (Operator Overloading)
+extension CGPoint {
+    
+    /// CGPoint的加法
+    /// - Parameters:
+    ///   - lhs: CGPoint
+    ///   - rhs: CGPoint
+    /// - Returns: CGPoint
+    static func +(lhs: CGPoint, rhs: CGPoint) -> CGPoint {
+        return CGPoint(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
+    }
+    
+    /// CGPoint的減法
+    /// - Parameters:
+    ///   - lhs: CGPoint
+    ///   - rhs: CGPoint
+    /// - Returns: CGPoint
+    static func -(lhs: CGPoint, rhs: CGPoint) -> CGPoint {
+        return CGPoint(x: lhs.x - rhs.x, y: lhs.y - rhs.y)
+    }
+}
+
+// MARK: - CGPoint (function)
+extension CGPoint {
+    
+    /// [半徑 - 圓點 (0, 0)](https://zh.wikipedia.org/wiki/勾股定理)
+    func _radius() -> CGFloat {
+        return sqrt(self.x * self.x + self.y * self.y)
+    }
+}
+
 // MARK: CGPath (class function)
 extension CGPath {
     
@@ -95,13 +126,15 @@ extension CAAnimation {
     /// [Layer動畫產生器 (CABasicAnimation)](https://jjeremy-xue.medium.com/swift-說說-cabasicanimation-9be31ee3eae0)
     /// - Parameters:
     ///   - keyPath: [要產生的動畫key值](https://blog.csdn.net/iosevanhuang/article/details/14488239)
+    ///   - delegate: [CAAnimationDelegate?](https://juejin.cn/post/6936070813648945165)
     ///   - fromValue: 開始的值
     ///   - toValue: 結束的值
     ///   - duration: 動畫時間
     ///   - repeatCount: 播放次數
     ///   - fillMode: [CAMediaTimingFillMode](https://juejin.cn/post/6991371790245183496)
+    ///   - isRemovedOnCompletion: Bool
     /// - Returns: Constant.CAAnimationInformation
-    static func _basicAnimation(keyPath: Constant.AnimationKeyPath = .strokeEnd, fromValue: Any?, toValue: Any?, duration: CFTimeInterval = 5.0, repeatCount: Float = 1.0, fillMode: CAMediaTimingFillMode = .forwards, isRemovedOnCompletion: Bool = false) -> Constant.BasicAnimationInformation {
+    static func _basicAnimation(keyPath: Constant.AnimationKeyPath = .strokeEnd, delegate: CAAnimationDelegate? = nil, fromValue: Any?, toValue: Any?, duration: CFTimeInterval = 5.0, repeatCount: Float = 1.0, fillMode: CAMediaTimingFillMode = .forwards, isRemovedOnCompletion: Bool = false) -> Constant.BasicAnimationInformation {
         
         let animation = CABasicAnimation(keyPath: keyPath.rawValue)
         
@@ -111,6 +144,7 @@ extension CAAnimation {
         animation.repeatCount = repeatCount
         animation.fillMode = fillMode
         animation.isRemovedOnCompletion = isRemovedOnCompletion
+        animation.delegate = delegate
         
         return (animation, keyPath)
     }
