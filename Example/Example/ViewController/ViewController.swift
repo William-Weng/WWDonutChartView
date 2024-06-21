@@ -30,7 +30,7 @@ final class ViewController: UIViewController {
     }
     
     @IBAction func drawAction(_ sender: UIButton) {
-        donutChartView.drawing(lineCap: .butt, animtionType: .same)
+        donutChartView.drawing(lineCap: .butt, animtionType: .queue)
     }
 }
 

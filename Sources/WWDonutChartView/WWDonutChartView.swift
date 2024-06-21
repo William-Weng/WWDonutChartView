@@ -27,7 +27,7 @@ open class WWDonutChartView: UIView {
     
     public enum AnimtionType {
         case queue  // 照順序一個一個出現
-        case same   // 同時一個出現
+        case same   // 同時一起出現
     }
     
     @IBOutlet var contentView: UIView!
