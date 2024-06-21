@@ -310,7 +310,7 @@ private extension WWDonutChartView {
         
         guard let totalDuration = delegate?.duration(in: self) else { return false }
         
-        if (animation.duration == totalDuration) { return true }
+        if (animation.duration >= totalDuration) { return true }
         return false
     }
 }
