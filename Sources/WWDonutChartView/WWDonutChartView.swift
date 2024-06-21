@@ -13,6 +13,7 @@ import AVFoundation
 // MARK: - WWDonutChartViewDelegate
 public protocol WWDonutChartViewDelegate: AnyObject {
     
+    func duration(in donutChartView: WWDonutChartView) -> Double                                                                // 動畫的總時間
     func informations(in donutChartView: WWDonutChartView) -> [WWDonutChartView.LineInformation]                                // 取得資料相關資訊
     func donutChartView(_ donutChartView: WWDonutChartView, didSelectedIndex index: Int?)                                       // 點到哪一個圓環的Index
     func donutChartView(_ donutChartView: WWDonutChartView, animation: CAAnimation, didStop isStop: Bool, isFinished: Bool)     // 動畫開始 / 停止 / 全部完成
@@ -22,7 +23,12 @@ public protocol WWDonutChartViewDelegate: AnyObject {
 @IBDesignable 
 open class WWDonutChartView: UIView {
     
-    public typealias LineInformation = (title: String, strokeColor: UIColor, percent: CGFloat, duration: Double)    // (標題, 線的顏色, 百分比, 動畫時間)
+    public typealias LineInformation = (title: String, strokeColor: UIColor, percent: CGFloat)    // (標題, 線的顏色, 百分比)
+    
+    public enum AnimtionType {
+        case queue  // 照順序一個一個出現
+        case same   // 同時一個出現
+    }
     
     @IBOutlet var contentView: UIView!
     
@@ -98,9 +104,10 @@ public extension WWDonutChartView {
     /// 繪製動畫線條
     /// - Parameters:
     ///   - lineCap: 線頭樣式
-    func drawing(lineCap: CAShapeLayerLineCap = .round) {
+    ///   - animtionType: 動畫樣式
+    func drawing(lineCap: CAShapeLayerLineCap = .butt, animtionType: AnimtionType = .queue) {
         clean()
-        animateCAShapeLayerDrawing(lineCap: lineCap)
+        animateCAShapeLayerDrawing(lineCap: lineCap, animtionType: animtionType)
     }
     
     /// 清除線段
@@ -150,18 +157,30 @@ private extension WWDonutChartView {
     /// 畫圓弧動畫 (同時畫)
     /// - Parameters:
     ///   - lineCap: CAShapeLayerLineCap
-    func animateCAShapeLayerDrawing(lineCap: CAShapeLayerLineCap) {
+    ///   - animtionType: AnimtionType
+    func animateCAShapeLayerDrawing(lineCap: CAShapeLayerLineCap, animtionType: AnimtionType) {
         
-        guard let infos = delegate?.informations(in: self) else { return }
+        guard let infos = delegate?.informations(in: self),
+              let totalDuration = delegate?.duration(in: self)
+        else {
+            return
+        }
         
         var totalPercent: CGFloat = 0
         
         let layers = infos.map { info in
             
             let layer = baseShapeLayer(from: startAngle, to: endAngle, strokeColor: info.strokeColor, lineCap: lineCap)
+            var duration = 0.0
             
             totalPercent += info.percent
-            layer.add(pathAnimation(percent: totalPercent, duration: info.duration), forKey: pathAnimationKey)
+            
+            switch animtionType {
+            case .same: duration = totalDuration
+            case .queue: duration = totalDuration * totalPercent
+            }
+            
+            layer.add(pathAnimation(percent: totalPercent, duration: duration), forKey: pathAnimationKey)
             
             return layer
         }
@@ -289,11 +308,9 @@ private extension WWDonutChartView {
     /// - Returns: Bool
     func checkAnimationStop(_ animation: CAAnimation) -> Bool {
         
-        guard let infos = delegate?.informations(in: self) else { return false }
+        guard let totalDuration = delegate?.duration(in: self) else { return false }
         
-        let maxDuration = infos.map { $0.duration }.max()
-        
-        if (animation.duration == maxDuration) { return true }
+        if (animation.duration == totalDuration) { return true }
         return false
     }
 }

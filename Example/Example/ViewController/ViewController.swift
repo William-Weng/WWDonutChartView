@@ -19,9 +19,9 @@ final class ViewController: UIViewController {
     @IBOutlet weak var donutChartView: MyDonutChartView!
     
     private let infos: [WWDonutChartView.LineInformation] = [
-        (title: "紅色", strokeColor: .red, percent: 0.1, duration: 0.2),
-        (title: "綠色", strokeColor: .green, percent: 0.3, duration: 0.8),
-        (title: "黃色", strokeColor: .yellow, percent: 0.6, duration: 2.0),
+        (title: "紅色", strokeColor: .red, percent: 0.1),
+        (title: "綠色", strokeColor: .green, percent: 0.3),
+        (title: "黃色", strokeColor: .yellow, percent: 0.6),
     ]
     
     override func viewDidLoad() {
@@ -30,13 +30,17 @@ final class ViewController: UIViewController {
     }
     
     @IBAction func drawAction(_ sender: UIButton) {
-        donutChartView.drawing(lineCap: .butt)
+        donutChartView.drawing(lineCap: .butt, animtionType: .same)
     }
 }
 
 // MARK: WWDonutChartViewDelegate
 extension ViewController: WWDonutChartViewDelegate {
-        
+    
+    func duration(in donutChartView: WWDonutChartView) -> Double {
+        return 2.0
+    }
+    
     func informations(in donutChartView: WWDonutChartView) -> [WWDonutChartView.LineInformation] {
         return infos
     }

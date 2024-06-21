@@ -21,15 +21,16 @@ dependencies: [
 |函式|功能|
 |-|-|
 |setting(lineWidth:baseLineColor:touchGap)|設定線寬 / 底線的顏色 / 內縮距離|
-|drawing(lineCap:)|繪製動畫線條|
+|drawing(lineCap:animtionType:)|繪製動畫線條 / 動畫類型|
 |clean()|清除線段|
 
 ## WWDonutChartViewDelegate
 |函式|功能|
 |-|-|
+|duration(in:)|總動畫時間|
 |informations(in:)|取得資料相關資訊|
 |donutChartView(_:didSelectedIndex:)|點到哪一個圓環的Index|
-|donutChartView(_:animation:isStop:isFinished:)|動畫開始 / 停止|
+|donutChartView(_:animation:isStop:isFinished:)|動畫開始 / 停止 / 結束|
 
 ## Example
 ```swift
@@ -45,9 +46,9 @@ final class ViewController: UIViewController {
     @IBOutlet weak var donutChartView: MyDonutChartView!
     
     private let infos: [WWDonutChartView.LineInformation] = [
-        (title: "紅色", strokeColor: .red, percent: 0.1, duration: 0.2),
-        (title: "綠色", strokeColor: .green, percent: 0.3, duration: 0.8),
-        (title: "黃色", strokeColor: .yellow, percent: 0.6, duration: 2.0),
+        (title: "紅色", strokeColor: .red, percent: 0.1),
+        (title: "綠色", strokeColor: .green, percent: 0.3),
+        (title: "黃色", strokeColor: .yellow, percent: 0.6),
     ]
     
     override func viewDidLoad() {
@@ -56,12 +57,16 @@ final class ViewController: UIViewController {
     }
     
     @IBAction func drawAction(_ sender: UIButton) {
-        donutChartView.drawing(lineCap: .butt)
+        donutChartView.drawing(lineCap: .butt, animtionType: .same)
     }
 }
 
 extension ViewController: WWDonutChartViewDelegate {
-        
+    
+    func duration(in donutChartView: WWDonutChartView) -> Double {
+        return 2.0
+    }
+    
     func informations(in donutChartView: WWDonutChartView) -> [WWDonutChartView.LineInformation] {
         return infos
     }
