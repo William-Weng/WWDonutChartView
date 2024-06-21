@@ -13,7 +13,7 @@ import AVFoundation
 // MARK: - WWDonutChartViewDelegate
 public protocol WWDonutChartViewDelegate: AnyObject {
     
-    func duration(in donutChartView: WWDonutChartView) -> Double                                                                // 動畫的總時間
+    func duration(in donutChartView: WWDonutChartView) -> Double                                                                // 動畫的總時間 (360°)
     func informations(in donutChartView: WWDonutChartView) -> [WWDonutChartView.LineInformation]                                // 取得資料相關資訊
     func donutChartView(_ donutChartView: WWDonutChartView, didSelectedIndex index: Int?)                                       // 點到哪一個圓環的Index
     func donutChartView(_ donutChartView: WWDonutChartView, animation: CAAnimation, didStop isStop: Bool, isFinished: Bool)     // 動畫開始 / 停止 / 全部完成
@@ -44,6 +44,7 @@ open class WWDonutChartView: UIView {
     private let pathAnimationKey = "strokeEndAnimation"
         
     private var isFinished = false
+    private var animaitonStopFlags: [Bool] = []
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -81,7 +82,8 @@ public extension WWDonutChartView {
     }
     
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
-        isFinished = checkAnimationStop(anim)
+        animaitonStopFlags.append(flag)
+        isFinished = checkAnimationStop(flags: animaitonStopFlags)
         delegate?.donutChartView(self, animation: anim, didStop: flag, isFinished: isFinished)
     }
 }
@@ -110,13 +112,14 @@ public extension WWDonutChartView {
         animateCAShapeLayerDrawing(lineCap: lineCap, animtionType: animtionType)
     }
     
-    /// 清除線段
+    /// 清除線段 / 應該清的
     func clean() {
+        
+        isFinished = false
+        animaitonStopFlags = []
         
         rootLayer.removeAllAnimations()
         rootLayer.sublayers?._removeFromSuperlayer()
-        isFinished = false
-        
         shapeLayerDrawing(lineCap: .butt)
     }
 }
@@ -303,15 +306,25 @@ private extension WWDonutChartView {
         return true
     }
     
-    /// 測試動畫是否完全停止 (動畫時間最長的就是了)
-    /// - Parameter animation: CAAnimation
+    /// 測試動畫是否完全停止
+    /// - Parameter flags: [Bool]
     /// - Returns: Bool
-    func checkAnimationStop(_ animation: CAAnimation) -> Bool {
+    func checkAnimationStop(flags: [Bool]) -> Bool {
         
-        guard let totalDuration = delegate?.duration(in: self) else { return false }
+        guard let totalDuration = delegate?.duration(in: self),
+              flags.count == animationLayerCount()
+        else {
+            return false
+        }
         
-        if (animation.duration >= totalDuration) { return true }
-        return false
+        return true
+    }
+    
+    /// 動畫Layer的數量 (不含底圈的Layer)
+    /// - Returns: Int
+    func animationLayerCount() -> Int {
+        guard let sublayers = rootLayer.sublayers else { return 0 }
+        return sublayers.count - 1
     }
 }
 

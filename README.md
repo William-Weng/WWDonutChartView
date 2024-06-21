@@ -27,7 +27,7 @@ dependencies: [
 ## WWDonutChartViewDelegate
 |函式|功能|
 |-|-|
-|duration(in:)|總動畫時間|
+|duration(in:)|動畫的總時間 (360°)|
 |informations(in:)|取得資料相關資訊|
 |donutChartView(_:didSelectedIndex:)|點到哪一個圓環的Index|
 |donutChartView(_:animation:isStop:isFinished:)|動畫開始 / 停止 / 結束|
