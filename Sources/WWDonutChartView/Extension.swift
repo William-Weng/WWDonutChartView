@@ -29,6 +29,13 @@ extension Collection where Self.Element: CALayer {
     }
 }
 
+// MARK: - Collection (override class function)
+extension Collection {
+
+    /// [為Array加上安全取值特性 => nil](https://stackoverflow.com/questions/25329186/safe-bounds-checked-array-lookup-in-swift-through-optional-bindings)
+    subscript(safe index: Index) -> Element? { return indices.contains(index) ? self[index] : nil }
+}
+
 // MARK: UIView (class function)
 extension UIView {
     
@@ -117,6 +124,24 @@ extension CALayer {
         layer.lineCap = lineCap
 
         return layer
+    }
+    
+    /// [設置陰影](https://www.jianshu.com/p/2c90d6a637f7)
+    /// - Parameters:
+    ///   - color: 陰影顏色
+    ///   - backgroundColor: 陰影背景色
+    ///   - offset: 陰影位移
+    ///   - opacity: 陰影不透明度
+    ///   - radius: 陰影半徑
+    ///   - cornerRadius: 圓角半徑
+    func _shadow(color: UIColor, backgroundColor: UIColor, offset: CGSize, opacity: Float, radius: CGFloat, cornerRadius: CGFloat) {
+        
+        shadowColor = color.cgColor
+        shadowOffset = offset
+        shadowOpacity = opacity
+        shadowRadius = radius
+        self.cornerRadius = cornerRadius
+        self.backgroundColor = backgroundColor.cgColor
     }
 }
 

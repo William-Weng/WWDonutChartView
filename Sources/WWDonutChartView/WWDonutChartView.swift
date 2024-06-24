@@ -23,11 +23,13 @@ public protocol WWDonutChartViewDelegate: AnyObject {
 @IBDesignable 
 open class WWDonutChartView: UIView {
     
-    public typealias LineInformation = (title: String, strokeColor: UIColor, percent: CGFloat)    // (標題, 線的顏色, 百分比)
+    public typealias LineInformation = (title: String, strokeColor: UIColor, percent: CGFloat)      // (標題, 線的顏色, 百分比)
+    
+    typealias ChartAngle = (start: CGFloat, end: CGFloat)                                           // (起始角度, 結束角度)
     
     public enum AnimtionType {
-        case queue  // 照順序一個一個出現
-        case same   // 同時一起出現
+        case queue                                                                                  // 照順序一個一個出現
+        case same                                                                                   // 同時一起出現
     }
     
     @IBOutlet var contentView: UIView!
@@ -39,12 +41,13 @@ open class WWDonutChartView: UIView {
     public weak var delegate: WWDonutChartViewDelegate?
     
     private let rootLayer = CALayer()
-    private let startAngle: CGFloat = -90
-    private let endAngle: CGFloat = 270
+    private let circleAngle: ChartAngle = (start: -90, end: 270)
     private let pathAnimationKey = "strokeEndAnimation"
-        
+    private let shadowView = UIView(frame: .zero)
+
     private var isFinished = false
     private var animaitonStopFlags: [Bool] = []
+    private var lineCap: CAShapeLayerLineCap = .butt
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -110,6 +113,7 @@ public extension WWDonutChartView {
     func drawing(lineCap: CAShapeLayerLineCap = .butt, animtionType: AnimtionType = .queue) {
         clean()
         animateCAShapeLayerDrawing(lineCap: lineCap, animtionType: animtionType)
+        delegate?.donutChartView(self, didSelectedIndex: nil)
     }
     
     /// 清除線段 / 應該清的
@@ -120,7 +124,11 @@ public extension WWDonutChartView {
         
         rootLayer.removeAllAnimations()
         rootLayer.sublayers?._removeFromSuperlayer()
-        shapeLayerDrawing(lineCap: .butt)
+        
+        shadowView.removeFromSuperview()
+        shadowView.layer.sublayers?._removeFromSuperlayer()
+        
+        shapeLayerDrawing(lineCap: lineCap)
     }
 }
 
@@ -153,7 +161,7 @@ private extension WWDonutChartView {
     /// - Parameter lineCap: CAShapeLayerLineCap
     func shapeLayerDrawing(lineCap: CAShapeLayerLineCap) {
         
-        let layer = baseShapeLayer(from: startAngle, to: endAngle, strokeColor: baseLineColor, lineCap: lineCap)
+        let layer = baseShapeLayer(from: circleAngle.start, to: circleAngle.end, strokeColor: baseLineColor, lineCap: lineCap)
         rootLayer.addSublayer(layer)
     }
     
@@ -173,7 +181,7 @@ private extension WWDonutChartView {
         
         let layers = infos.map { info in
             
-            let layer = baseShapeLayer(from: startAngle, to: endAngle, strokeColor: info.strokeColor, lineCap: lineCap)
+            let layer = baseShapeLayer(from: circleAngle.start, to: circleAngle.end, strokeColor: info.strokeColor, lineCap: lineCap)
             var duration = 0.0
             
             totalPercent += info.percent
@@ -189,6 +197,8 @@ private extension WWDonutChartView {
         }
         
         layers.reversed().forEach { rootLayer.addSublayer($0) }
+        
+        self.lineCap = lineCap
     }
 }
 
@@ -201,11 +211,12 @@ private extension WWDonutChartView {
     ///   - endAngle: 結束角度
     ///   - strokeColor: 線的顏色
     ///   - lineCap: 線頭樣式
+    ///   - lineWidthOffset: 線寬加粗
     /// - Returns: CAShapeLayer
-    func baseShapeLayer(from startAngle: CGFloat = .zero, to endAngle: CGFloat, strokeColor: UIColor, lineCap: CAShapeLayerLineCap) -> CAShapeLayer {
+    func baseShapeLayer(from startAngle: CGFloat = .zero, to endAngle: CGFloat, strokeColor: UIColor, lineCap: CAShapeLayerLineCap, lineWidthOffset: CGFloat = 0) -> CAShapeLayer {
         
         let path = CGPath._buildCirclePath(center: contentView.center, radius: self._fitRadius(lineWidth: lineWidth), from: startAngle._radian(), to: endAngle._radian(), clockwise: false)
-        let layer = CALayer._shape(with: path, strokeColor: strokeColor, fillColor: .clear, lineWidth: lineWidth, lineCap: lineCap)
+        let layer = CALayer._shape(with: path, strokeColor: strokeColor, fillColor: .clear, lineWidth: lineWidth + lineWidthOffset, lineCap: lineCap)
         
         return layer
     }
@@ -226,16 +237,44 @@ private extension WWDonutChartView {
     ///   - event: UIEvent?
     func touchesBeganAction(_ touches: Set<UITouch>, with event: UIEvent?) {
         
+        var index: Int?
+        
+        defer {
+            shadowView.removeFromSuperview()
+            shadowView.layer.sublayers?._removeFromSuperlayer()
+            delegate?.donutChartView(self, didSelectedIndex: index)
+            touchedShadowLayer(with: index)
+        }
+        
         guard isFinished,
               let location = touches.first?.location(in: contentView),
               let sublayers = rootLayer.sublayers,
               sublayers.count > 1,
               checkRadiusRange(location: location, center: contentView.center, lineWidth: lineWidth, touchGap: touchGap)
         else {
-            delegate?.donutChartView(self, didSelectedIndex: nil); return
+            return
+        }
+
+        index = touchedIndex(startAngle: circleAngle.start, location: location, center: contentView.center)
+    }
+    
+    func touchedShadowLayer(with index: Int?) {
+        
+        guard let index = index,
+              let info = delegate?.informations(in: self)[safe: index],
+              let chartAngle = chartAngles()[safe: index]
+        else {
+            return
         }
         
-        delegate?.donutChartView(self, didSelectedIndex: touchedIndex(startAngle: startAngle, location: location, center: contentView.center))
+        let startAngle = chartAngle.start + circleAngle.start
+        let endAngle = chartAngle.end + circleAngle.start
+        let layer = baseShapeLayer(from: startAngle, to: endAngle, strokeColor: info.strokeColor, lineCap: lineCap, lineWidthOffset: 10)
+        
+        layer._shadow(color: .lightGray, backgroundColor: .clear, offset: CGSize(width: 2, height: 2), opacity: 1.0, radius: 5.0, cornerRadius: 0)
+        shadowView.layer.addSublayer(layer)
+        
+        addSubview(shadowView)
     }
     
     /// 點擊位置的角度 (0° ~ 360°)
@@ -264,30 +303,46 @@ private extension WWDonutChartView {
     /// - Returns: Int?
     func touchedIndex(startAngle: CGFloat, location: CGPoint, center: CGPoint) -> Int? {
         
-        guard let infos = delegate?.informations(in: self) else { return nil }
-        
-        var touchedIndex: Int?
-        
+        let chartAngles = chartAngles()
         let angle = touchAngle(startAngle: startAngle, location: location, center: contentView.center)
         
-        var _startAngle = 0.0
-        var _percent = 0.0
-
-        for (index, info) in infos.enumerated() {
-              
-            _startAngle = (CGFloat.pi * 2 * _percent)._angle()
-            _percent += info.percent
+        var touchedIndex: Int? = nil
+        
+        for (index, chartAngle) in chartAngles.enumerated() {
             
-            let _endAngle = (CGFloat.pi * 2 * _percent)._angle()
-                        
-            if (angle > _startAngle) {
-                if (angle < _endAngle) { touchedIndex = index }
+            if (angle > chartAngle.start) {
+                if (angle < chartAngle.end) {
+                    touchedIndex = index
+                }
             }
         }
         
         return touchedIndex
     }
+    
+    /// 計算出各資料上的甜甜圈圖角度 (觸碰用)
+    /// - Returns: [ChartAngle]
+    func chartAngles() -> [ChartAngle] {
         
+        guard let infos = delegate?.informations(in: self) else { return [] }
+        
+        var chartAngles: [ChartAngle] = []
+        var _startAngle = 0.0
+        var _percent = 0.0
+
+        for (index, info) in infos.enumerated() {
+            
+            _startAngle = (CGFloat.pi * 2 * _percent)._angle()
+            _percent += info.percent
+            
+            let _endAngle = (CGFloat.pi * 2 * _percent)._angle()
+            
+            chartAngles.append((start: _startAngle, end: _endAngle))
+        }
+        
+        return chartAngles
+    }
+    
     /// 確認點擊的位置 (半徑範圍)
     /// - Parameters:
     ///   - location: CGPoint
