@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/William-Weng/WWDonutChartView",
       "state" : {
-        "revision" : "07dda4fae9764086dd9f831152bc6a60dd234675",
-        "version" : "1.1.4"
+        "revision" : "403808ce6f945b730dfaa58e6ee9ef7e536bc13d",
+        "version" : "1.2.0"
       }
     },
     {

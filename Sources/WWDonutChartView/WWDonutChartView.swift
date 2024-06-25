@@ -258,6 +258,8 @@ private extension WWDonutChartView {
         index = touchedIndex(startAngle: circleAngle.start, location: location, center: contentView.center)
     }
     
+    /// 被點到的Layer產生陰影
+    /// - Parameter index: Int?
     func touchedShadowLayer(with index: Int?) {
         
         guard let index = index,
