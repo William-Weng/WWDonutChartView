@@ -49,7 +49,7 @@ open class WWDonutChartView: UIView {
     private var animaitonStopFlags: [Bool] = []
     private var lineCap: CAShapeLayerLineCap = .butt
     
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         initViewFromXib()
     }
@@ -58,18 +58,22 @@ open class WWDonutChartView: UIView {
         super.init(coder: aDecoder)
         initViewFromXib()
     }
+}
+
+// MARK: override
+public extension WWDonutChartView {
     
-    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         touchesBeganAction(touches, with: event)
     }
     
-    public override func draw(_ rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         super.draw(rect)
         layerSetting(with: rect)
         shapeLayerDrawing(lineCap: .butt)
     }
     
-    public override func prepareForInterfaceBuilder() {
+    override func prepareForInterfaceBuilder() {
         super.prepareForInterfaceBuilder()
     }
 }

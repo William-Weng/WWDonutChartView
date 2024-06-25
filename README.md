@@ -46,9 +46,9 @@ final class ViewController: UIViewController {
     @IBOutlet weak var donutChartView: MyDonutChartView!
     
     private let infos: [WWDonutChartView.LineInformation] = [
-        (title: "紅色", strokeColor: .red, percent: 0.1),
-        (title: "綠色", strokeColor: .green, percent: 0.3),
-        (title: "黃色", strokeColor: .yellow, percent: 0.6),
+        (title: "Red", strokeColor: .red, percent: 0.1),
+        (title: "Green", strokeColor: .green, percent: 0.3),
+        (title: "Yellow", strokeColor: .yellow, percent: 0.6),
     ]
     
     override func viewDidLoad() {
