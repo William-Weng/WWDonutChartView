@@ -28,19 +28,27 @@ final class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    
-    @IBAction func drawAction(_ sender: UIButton) {
-        donutChartView.drawing(lineCap: .butt, animtionType: .queue)
+        donutChartView.delegate = self
     }
     
     @IBAction func toggleLineWidthType(_ sender: UIBarButtonItem) {
         
         lineWidthType = (sender.tag == 101) ? .custom(56) : .radius
         
-        donutChartView.delegate = self
         donutChartView.setting(lineWidthType: lineWidthType, baseLineColor: .lightGray, touchGap: 0)
         donutChartView.clean()
+    }
+    
+    @IBAction func drawAction(_ sender: UIButton) {
+        
+        let animtionType: WWDonutChartView.AnimtionType
+        
+        switch lineWidthType {
+        case .radius: animtionType = .queue
+        case .custom(_): animtionType = .same
+        }
+        
+        donutChartView.drawing(lineCap: .butt, animtionType: animtionType)
     }
 }
 
@@ -48,7 +56,7 @@ final class ViewController: UIViewController {
 extension ViewController: WWDonutChartViewDelegate {
     
     func duration(in donutChartView: WWDonutChartView) -> Double {
-        return 2.0
+        return 1.0
     }
     
     func informations(in donutChartView: WWDonutChartView) -> [WWDonutChartView.LineInformation] {
