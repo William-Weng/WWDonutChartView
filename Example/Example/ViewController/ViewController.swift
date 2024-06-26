@@ -24,13 +24,23 @@ final class ViewController: UIViewController {
         (title: "Yellow", strokeColor: .yellow, percent: 0.6),
     ]
     
+    private var lineWidthType: WWDonutChartView.LineWidthType = .custom(56)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        donutChartView.delegate = self
     }
     
     @IBAction func drawAction(_ sender: UIButton) {
         donutChartView.drawing(lineCap: .butt, animtionType: .queue)
+    }
+    
+    @IBAction func toggleLineWidthType(_ sender: UIBarButtonItem) {
+        
+        lineWidthType = (sender.tag == 101) ? .custom(56) : .radius
+        
+        donutChartView.delegate = self
+        donutChartView.setting(lineWidthType: lineWidthType, baseLineColor: .lightGray, touchGap: 0)
+        donutChartView.clean()
     }
 }
 

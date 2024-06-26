@@ -11,7 +11,7 @@
 ### [Installation with Swift Package Manager](https://medium.com/彼得潘的-swift-ios-app-開發問題解答集/使用-spm-安裝第三方套件-xcode-11-新功能-2c4ffcf85b4b)
 ```
 dependencies: [
-    .package(url: "https://github.com/William-Weng/WWDonutChartView.git", .upToNextMajor(from: "1.2.0"))
+    .package(url: "https://github.com/William-Weng/WWDonutChartView.git", .upToNextMajor(from: "1.2.2"))
 ]
 ```
 
@@ -20,7 +20,7 @@ dependencies: [
 ## [Function - 可用函式](https://gitbook.swiftgg.team/swift/swift-jiao-cheng)
 |函式|功能|
 |-|-|
-|setting(lineWidth:baseLineColor:touchGap)|設定線寬 / 底線的顏色 / 內縮距離|
+|setting(lineWidthType:baseLineColor:touchGap)|設定線寬 / 底線的顏色 / 內縮距離|
 |drawing(lineCap:animtionType:)|繪製動畫線條 / 動畫類型|
 |clean()|清除線段|
 
@@ -51,13 +51,24 @@ final class ViewController: UIViewController {
         (title: "Yellow", strokeColor: .yellow, percent: 0.6),
     ]
     
+    private var lineWidthType: WWDonutChartView.LineWidthType = .custom(56)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         donutChartView.delegate = self
+        donutChartView.setting(lineWidthType: lineWidthType, baseLineColor: .lightGray, touchGap: 0)
     }
     
     @IBAction func drawAction(_ sender: UIButton) {
         donutChartView.drawing(lineCap: .butt, animtionType: .queue)
+    }
+    
+    @IBAction func toggleLineWidthType(_ sender: UIBarButtonItem) {
+        
+        lineWidthType = (sender.tag == 101) ? .custom(56) : .radius
+        donutChartView.setting(lineWidthType: lineWidthType, baseLineColor: .lightGray, touchGap: 0)
+        donutChartView.clean()
     }
 }
 

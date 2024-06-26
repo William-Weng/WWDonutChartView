@@ -16,9 +16,10 @@
 		8135CCDC2C241EE900262276 /* WWDonutChartView in Frameworks */ = {isa = PBXBuildFile; productRef = 8135CCDB2C241EE900262276 /* WWDonutChartView */; };
 		8135CCE22C2424B400262276 /* WWDonutChartView in Frameworks */ = {isa = PBXBuildFile; productRef = 8135CCE12C2424B400262276 /* WWDonutChartView */; };
 		813627F12C2A50D900BDC4C5 /* WWDonutChartView in Frameworks */ = {isa = PBXBuildFile; productRef = 813627F02C2A50D900BDC4C5 /* WWDonutChartView */; };
-		813627F42C2A513800BDC4C5 /* WWDonutChartView in Frameworks */ = {isa = PBXBuildFile; productRef = 813627F32C2A513800BDC4C5 /* WWDonutChartView */; };
 		814550B62C240DB0002FDAC4 /* WWDonutChartView in Frameworks */ = {isa = PBXBuildFile; productRef = 814550B52C240DB0002FDAC4 /* WWDonutChartView */; };
 		814550B92C240DE4002FDAC4 /* WWDonutChartView in Frameworks */ = {isa = PBXBuildFile; productRef = 814550B82C240DE4002FDAC4 /* WWDonutChartView */; };
+		8155B8B02C2BACA40004170F /* WWDonutChartView in Frameworks */ = {isa = PBXBuildFile; productRef = 8155B8AF2C2BACA40004170F /* WWDonutChartView */; };
+		8156A5772C2ABFAB004BE786 /* WWDonutChartView in Frameworks */ = {isa = PBXBuildFile; productRef = 8156A5762C2ABFAB004BE786 /* WWDonutChartView */; };
 		817646D12C241395002B0AB8 /* WWDonutChartView in Frameworks */ = {isa = PBXBuildFile; productRef = 817646D02C241395002B0AB8 /* WWDonutChartView */; };
 		817646D72C2416A3002B0AB8 /* WWDonutChartView in Frameworks */ = {isa = PBXBuildFile; productRef = 817646D62C2416A3002B0AB8 /* WWDonutChartView */; };
 		817646DD2C241784002B0AB8 /* WWDonutChartView in Frameworks */ = {isa = PBXBuildFile; productRef = 817646DC2C241784002B0AB8 /* WWDonutChartView */; };
@@ -41,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8155B8B02C2BACA40004170F /* WWDonutChartView in Frameworks */,
 				814550B92C240DE4002FDAC4 /* WWDonutChartView in Frameworks */,
 				8135CCDC2C241EE900262276 /* WWDonutChartView in Frameworks */,
 				817646D12C241395002B0AB8 /* WWDonutChartView in Frameworks */,
@@ -50,7 +52,7 @@
 				817646DD2C241784002B0AB8 /* WWDonutChartView in Frameworks */,
 				8135CCE22C2424B400262276 /* WWDonutChartView in Frameworks */,
 				81893E452C250D170054C218 /* WWDonutChartView in Frameworks */,
-				813627F42C2A513800BDC4C5 /* WWDonutChartView in Frameworks */,
+				8156A5772C2ABFAB004BE786 /* WWDonutChartView in Frameworks */,
 				817646D72C2416A3002B0AB8 /* WWDonutChartView in Frameworks */,
 				814550B62C240DB0002FDAC4 /* WWDonutChartView in Frameworks */,
 			);
@@ -148,7 +150,8 @@
 				81893E442C250D170054C218 /* WWDonutChartView */,
 				81BA15242C293DAF00047F4F /* WWDonutChartView */,
 				813627F02C2A50D900BDC4C5 /* WWDonutChartView */,
-				813627F32C2A513800BDC4C5 /* WWDonutChartView */,
+				8156A5762C2ABFAB004BE786 /* WWDonutChartView */,
+				8155B8AF2C2BACA40004170F /* WWDonutChartView */,
 			);
 			productName = Example;
 			productReference = 3DBCD87026F198EF00522E3B /* Example.app */;
@@ -180,7 +183,7 @@
 			mainGroup = 3DBCD86726F198EF00522E3B;
 			packageReferences = (
 				3DAC9C1727016E78006663C2 /* XCRemoteSwiftPackageReference "WWPrint" */,
-				813627F22C2A513800BDC4C5 /* XCRemoteSwiftPackageReference "WWDonutChartView" */,
+				8155B8AE2C2BACA40004170F /* XCRemoteSwiftPackageReference "WWDonutChartView" */,
 			);
 			productRefGroup = 3DBCD87126F198EF00522E3B /* Products */;
 			projectDirPath = "";
@@ -287,7 +290,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -342,7 +345,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -432,12 +435,12 @@
 				minimumVersion = 1.3.0;
 			};
 		};
-		813627F22C2A513800BDC4C5 /* XCRemoteSwiftPackageReference "WWDonutChartView" */ = {
+		8155B8AE2C2BACA40004170F /* XCRemoteSwiftPackageReference "WWDonutChartView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/William-Weng/WWDonutChartView";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.2.0;
+				minimumVersion = 1.2.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -460,16 +463,20 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = WWDonutChartView;
 		};
-		813627F32C2A513800BDC4C5 /* WWDonutChartView */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 813627F22C2A513800BDC4C5 /* XCRemoteSwiftPackageReference "WWDonutChartView" */;
-			productName = WWDonutChartView;
-		};
 		814550B52C240DB0002FDAC4 /* WWDonutChartView */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = WWDonutChartView;
 		};
 		814550B82C240DE4002FDAC4 /* WWDonutChartView */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WWDonutChartView;
+		};
+		8155B8AF2C2BACA40004170F /* WWDonutChartView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8155B8AE2C2BACA40004170F /* XCRemoteSwiftPackageReference "WWDonutChartView" */;
+			productName = WWDonutChartView;
+		};
+		8156A5762C2ABFAB004BE786 /* WWDonutChartView */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = WWDonutChartView;
 		};

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="hIL-7Y-4j9">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -19,19 +19,9 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8jm-Da-XQ3" customClass="MyDonutChartView" customModule="Example" customModuleProvider="target">
                                 <rect key="frame" x="20" y="261" width="374" height="374"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Touched Index" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H3L-ln-rqx">
-                                        <rect key="frame" x="111.5" y="172.5" width="151" height="29"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="H3L-ln-rqx" firstAttribute="centerY" secondItem="8jm-Da-XQ3" secondAttribute="centerY" id="IBB-zI-1a3"/>
                                     <constraint firstAttribute="width" secondItem="8jm-Da-XQ3" secondAttribute="height" id="Jzy-kE-5fy"/>
-                                    <constraint firstItem="H3L-ln-rqx" firstAttribute="centerX" secondItem="8jm-Da-XQ3" secondAttribute="centerX" id="NkT-u9-973"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="baseLineColor">
@@ -56,8 +46,14 @@
                                     <action selector="drawAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="qXx-TP-76d"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Touched Index" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H3L-ln-rqx">
+                                <rect key="frame" x="131.5" y="433.5" width="151" height="29"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Donut Chart" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5xn-Uw-eMB">
-                                <rect key="frame" x="112.5" y="104" width="189" height="43"/>
+                                <rect key="frame" x="112.5" y="148" width="189" height="43"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="36"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -66,6 +62,8 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="H3L-ln-rqx" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="0Ia-wU-AA1"/>
+                            <constraint firstItem="H3L-ln-rqx" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="2dY-Qd-ZKn"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="8jm-Da-XQ3" secondAttribute="trailing" constant="20" id="BzT-9K-xIb"/>
                             <constraint firstItem="8jm-Da-XQ3" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="P6T-tV-ekM"/>
                             <constraint firstItem="8jm-Da-XQ3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="elH-1J-gQf"/>
@@ -75,13 +73,44 @@
                             <constraint firstItem="0SY-eX-Tmd" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="yC5-hZ-DfB"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="nvs-zi-2RQ"/>
+                    <navigationItem key="navigationItem" id="nvs-zi-2RQ">
+                        <barButtonItem key="leftBarButtonItem" tag="201" title="Radius" id="QG1-qA-7Mg">
+                            <color key="tintColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="toggleLineWidthType:" destination="BYZ-38-t0r" id="4NY-sx-JGU"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" tag="101" title="Custom" id="XqF-LJ-3aZ">
+                            <color key="tintColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="toggleLineWidthType:" destination="BYZ-38-t0r" id="K2l-ra-GQW"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="donutChartView" destination="8jm-Da-XQ3" id="vxj-y5-JvH"/>
                         <outlet property="touchedIndexLabel" destination="H3L-ln-rqx" id="1Lc-Yr-hlp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1933.3333333333335" y="93.75"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="qfb-bd-TLJ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hIL-7Y-4j9" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="r9B-Os-Ms3">
+                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="eL5-bd-ihg"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="q75-yS-a55" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1023.1884057971015" y="93.75"/>
         </scene>

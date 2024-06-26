@@ -27,14 +27,20 @@ open class WWDonutChartView: UIView {
     
     typealias ChartAngle = (start: CGFloat, end: CGFloat)                                           // (起始角度, 結束角度)
     
+    /// 動畫類型
     public enum AnimtionType {
         case queue                                                                                  // 照順序一個一個出現
         case same                                                                                   // 同時一起出現
     }
     
+    /// 線寬類型
+    public enum LineWidthType {
+        case custom(_ width: CGFloat)                                                               // 自訂線寬
+        case radius                                                                                 // 圓半徑
+    }
+    
     @IBOutlet var contentView: UIView!
     
-    @IBInspectable var lineWidth: CGFloat = 10.0
     @IBInspectable var touchGap: CGFloat = 0
     @IBInspectable var baseLineColor: UIColor = .black
     
@@ -48,6 +54,7 @@ open class WWDonutChartView: UIView {
     private var isFinished = false
     private var animaitonStopFlags: [Bool] = []
     private var lineCap: CAShapeLayerLineCap = .butt
+    private var lineWidthType: LineWidthType = .custom(10)
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -100,12 +107,12 @@ public extension WWDonutChartView {
     
     /// 設定線寬 / 底線的顏色
     /// - Parameters:
-    ///   - lineWidth: CGFloat
+    ///   - lineWidthType: LineWidthType
     ///   - baseLineColor: UIColor
     ///   - touchGap: 園環範圍內縮的距離
-    func setting(lineWidth: CGFloat, baseLineColor: UIColor, touchGap: CGFloat) {
+    func setting(lineWidthType: LineWidthType, baseLineColor: UIColor, touchGap: CGFloat) {
         
-        self.lineWidth = lineWidth
+        self.lineWidthType = lineWidthType
         self.baseLineColor = baseLineColor
         self.touchGap = touchGap
     }
@@ -215,12 +222,41 @@ private extension WWDonutChartView {
     ///   - endAngle: 結束角度
     ///   - strokeColor: 線的顏色
     ///   - lineCap: 線頭樣式
-    ///   - lineWidthOffset: 線寬加粗
     /// - Returns: CAShapeLayer
-    func baseShapeLayer(from startAngle: CGFloat = .zero, to endAngle: CGFloat, strokeColor: UIColor, lineCap: CAShapeLayerLineCap, lineWidthOffset: CGFloat = 0) -> CAShapeLayer {
+    func baseShapeLayer(from startAngle: CGFloat = .zero, to endAngle: CGFloat, strokeColor: UIColor, lineCap: CAShapeLayerLineCap) -> CAShapeLayer {
         
+        let lineWidth = parseLineWidth(lineWidthType)
         let path = CGPath._buildCirclePath(center: contentView.center, radius: self._fitRadius(lineWidth: lineWidth), from: startAngle._radian(), to: endAngle._radian(), clockwise: false)
-        let layer = CALayer._shape(with: path, strokeColor: strokeColor, fillColor: .clear, lineWidth: lineWidth + lineWidthOffset, lineCap: lineCap)
+        let layer = CALayer._shape(with: path, strokeColor: strokeColor, fillColor: .clear, lineWidth: lineWidth, lineCap: lineCap)
+        
+        return layer
+    }
+    
+    /// 點擊的圓形路徑Layer (凸出顯示)
+    /// - Parameters:
+    ///   - startAngle: 開始角度
+    ///   - endAngle: 結束角度
+    ///   - strokeColor: 線的顏色
+    ///   - lineCap: 線頭樣式
+    ///   - lineWidthType: 圖形樣式
+    /// - Returns: CAShapeLayer
+    func touchedShapeLayer(from startAngle: CGFloat = .zero, to endAngle: CGFloat, strokeColor: UIColor, lineCap: CAShapeLayerLineCap, lineWidthType: LineWidthType) -> CAShapeLayer {
+        
+        let radius: CGFloat
+        let lineWidth: CGFloat
+        let lineWidthGap: CGFloat = 10
+        
+        switch lineWidthType {
+        case .custom(let width):
+            lineWidth = width + lineWidthGap
+            radius = self._fitRadius(lineWidth: width)
+        case .radius:
+            lineWidth = self._fitRadius() + lineWidthGap
+            radius = lineWidth * 0.5
+        }
+        
+        let path = CGPath._buildCirclePath(center: contentView.center, radius: radius, from: startAngle._radian(), to: endAngle._radian(), clockwise: false)
+        let layer = CALayer._shape(with: path, strokeColor: strokeColor, fillColor: .clear, lineWidth: lineWidth, lineCap: lineCap)
         
         return layer
     }
@@ -241,6 +277,7 @@ private extension WWDonutChartView {
     ///   - event: UIEvent?
     func touchesBeganAction(_ touches: Set<UITouch>, with event: UIEvent?) {
         
+        let lineWidth = parseLineWidth(lineWidthType)
         var index: Int?
         
         defer {
@@ -275,7 +312,7 @@ private extension WWDonutChartView {
         
         let startAngle = chartAngle.start + circleAngle.start
         let endAngle = chartAngle.end + circleAngle.start
-        let layer = baseShapeLayer(from: startAngle, to: endAngle, strokeColor: info.strokeColor, lineCap: lineCap, lineWidthOffset: 10)
+        let layer = touchedShapeLayer(from: startAngle, to: endAngle, strokeColor: info.strokeColor, lineCap: lineCap, lineWidthType: lineWidthType)
         
         layer._shadow(color: .lightGray, backgroundColor: .clear, offset: CGSize(width: 2, height: 2), opacity: 1.0, radius: 5.0, cornerRadius: 0)
         shadowView.layer.addSublayer(layer)
@@ -386,6 +423,17 @@ private extension WWDonutChartView {
     func animationLayerCount() -> Int {
         guard let sublayers = rootLayer.sublayers else { return 0 }
         return sublayers.count - 1
+    }
+    
+    /// 解析線寬 (自訂 / 圓半徑)
+    /// - Parameter lineWidthType: LineWidthType
+    /// - Returns: CGFloat
+    func parseLineWidth(_ lineWidthType: LineWidthType) -> CGFloat {
+        
+        switch lineWidthType {
+        case .custom(let width): return width
+        case .radius: return self._fitRadius()
+        }
     }
 }
 
